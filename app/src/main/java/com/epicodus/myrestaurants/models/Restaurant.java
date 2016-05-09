@@ -75,7 +75,7 @@ public class Restaurant {
     public void setPushId(String pushId) { this.pushId = pushId; }
 
     public String getLargeImageURL(String imageUrl) {
-        if (imageUrl.equals("http://vignette3.wikia.nocookie.net/max-steel-reboot/images/7/72/No_Image_Available.gif/revision/latest?cb=20130902173013")) {
+        if (imageUrl.equals("https://s-media-cache-ak0.pinimg.com/736x/68/d4/c1/68d4c1092837a068a2fe65b8a29b867e.jpg")) {
             return imageUrl;
         }
         else {

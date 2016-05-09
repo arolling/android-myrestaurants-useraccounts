@@ -154,7 +154,7 @@ public class YelpService {
                     String phone = restaurantJSON.optString("display_phone", "No phone available");
                     String website = restaurantJSON.getString("url");
                     double rating = restaurantJSON.getDouble("rating");
-                    String imageUrl = restaurantJSON.optString("image_url", "http://vignette3.wikia.nocookie.net/max-steel-reboot/images/7/72/No_Image_Available.gif/revision/latest?cb=20130902173013");
+                    String imageUrl = restaurantJSON.optString("image_url", "https://s-media-cache-ak0.pinimg.com/736x/68/d4/c1/68d4c1092837a068a2fe65b8a29b867e.jpg");
                     Log.d("IMGURL", imageUrl);
                     double latitude = restaurantJSON.getJSONObject("location")
                             .getJSONObject("coordinate").getDouble("latitude");

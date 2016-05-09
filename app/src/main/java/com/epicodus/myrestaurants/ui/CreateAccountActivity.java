@@ -84,7 +84,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         boolean validName = isValidName(name);
         boolean validPassword = isValidPassword(password, confirmPassword);
         if(!validEmail || !validName || !validPassword){
-            mAuthProgressDialog.hide();
+            mAuthProgressDialog.dismiss();
             return;
         }
 
@@ -97,7 +97,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
                     @Override
                     public void onAuthenticated(AuthData authData) {
-                        mAuthProgressDialog.hide();
+                        mAuthProgressDialog.dismiss();
                         if (authData != null) {
                             String userUid = authData.getUid();
 
@@ -114,7 +114,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
                     @Override
                     public void onAuthenticationError(FirebaseError firebaseError) {
-                        mAuthProgressDialog.hide();
+                        mAuthProgressDialog.dismiss();
                         switch (firebaseError.getCode()) {
                             case FirebaseError.INVALID_EMAIL:
                             case FirebaseError.USER_DOES_NOT_EXIST:
@@ -134,7 +134,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             }
             @Override
             public void onError(FirebaseError firebaseError) {
-                mAuthProgressDialog.hide();
+                mAuthProgressDialog.dismiss();
                 Log.d(TAG, "error occured " + firebaseError);
             }
         });
