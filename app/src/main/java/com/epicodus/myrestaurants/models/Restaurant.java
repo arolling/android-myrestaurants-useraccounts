@@ -16,7 +16,7 @@ public class Restaurant {
     double latitude;
     double longitude;
     List<String> categories = new ArrayList<>();
-    private String pushId;
+    String pushId;
 
     public Restaurant() {}
 
