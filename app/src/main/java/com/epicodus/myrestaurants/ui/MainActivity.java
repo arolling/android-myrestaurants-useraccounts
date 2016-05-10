@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void logout() {
         mFirebaseRef.unauth();
+        //todo: remove current search from shared preferences?
         takeUserToLoginScreenOnUnAuth();
     }
 
