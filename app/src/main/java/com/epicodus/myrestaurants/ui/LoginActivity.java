@@ -21,19 +21,16 @@ import com.firebase.client.FirebaseError;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
     public static final String TAG = LoginActivity.class.getSimpleName();
     @Bind(R.id.registerTextView) TextView mRegisterTextView;
     @Bind(R.id.passwordEditText) EditText mPasswordEditText;
     @Bind(R.id.emailEditText) EditText mEmailEditText;
     @Bind(R.id.passwordLoginButton) Button mPasswordLoginButton;
     private ProgressDialog mAuthProgressDialog;
-    private Firebase mFirebaseRef;
-    private SharedPreferences mSharedPreferences;
-    private SharedPreferences.Editor mSharedPreferencesEditor;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
@@ -41,9 +38,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mAuthProgressDialog.setTitle("Loading...");
         mAuthProgressDialog.setMessage("Authenticating with Firebase...");
         mAuthProgressDialog.setCancelable(false);
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-        mSharedPreferencesEditor = mSharedPreferences.edit();
-        mFirebaseRef = new Firebase(Constants.FIREBASE_URL);
+
         mPasswordLoginButton.setOnClickListener(this);
         mRegisterTextView.setOnClickListener(this);
 

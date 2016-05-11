@@ -24,13 +24,11 @@ import com.firebase.client.ValueEventListener;;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static final String TAG = MainActivity.class.getSimpleName();
     private ValueEventListener mUserRefListener;
-    private Firebase mFirebaseRef;
     private Firebase mUserRef;
     private String mUId;
-    private SharedPreferences mSharedPreferenes;
 
     @Bind(R.id.welcomeTextView)TextView mWelcomeTextView;
 
@@ -40,16 +38,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mSharedPreferenes = PreferenceManager.getDefaultSharedPreferences(this);
-        mUId = mSharedPreferenes.getString(Constants.KEY_UID, null);
-        mUserRef = new Firebase(Constants.FIREBASE_URL_USERS).child(mUId);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        mFirebaseRef = new Firebase(Constants.FIREBASE_URL);
         mFindRestaurantsButton.setOnClickListener(this);
         mSavedRestaurantsButton.setOnClickListener(this);
-
+        mUId = mSharedPreferences.getString(Constants.KEY_UID, null);
+        mUserRef = new Firebase(Constants.FIREBASE_URL_USERS).child(mUId);
         mUserRefListener = mUserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
