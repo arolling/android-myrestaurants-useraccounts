@@ -79,7 +79,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     protected void logout() {
         mFirebaseRef.unauth();
-        //todo: remove current search from shared preferences?
+        mSharedPreferencesEditor.remove(Constants.PREFERENCES_LOCATION_KEY).commit();
+
+        //todo: remove current UID from shared preferences?
         takeUserToLoginScreenOnUnAuth();
     }
 
