@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.epicodus.myrestaurants.Constants;
 import com.epicodus.myrestaurants.R;
@@ -26,10 +27,13 @@ public class SavedRestaurantListActivity extends AppCompatActivity implements On
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                 mPosition = savedInstanceState.getInt(Constants.EXTRA_KEY_POSITION);
                 mRestaurants = Parcels.unwrap(savedInstanceState.getParcelable(Constants.EXTRA_KEY_RESTAURANTS));
-                Intent intent = new Intent(this, RestaurantDetailActivity.class);
-                intent.putExtra(Constants.EXTRA_KEY_POSITION, mPosition);
-                intent.putExtra(Constants.EXTRA_KEY_RESTAURANTS, Parcels.wrap(mRestaurants));
-                startActivity(intent);
+                if(mRestaurants != null){
+
+                    Intent intent = new Intent(this, RestaurantDetailActivity.class);
+                    intent.putExtra(Constants.EXTRA_KEY_POSITION, mPosition);
+                    intent.putExtra(Constants.EXTRA_KEY_RESTAURANTS, Parcels.wrap(mRestaurants));
+                    startActivity(intent);
+                }
             }
         }
         setContentView(R.layout.activity_saved_restaurant_list);

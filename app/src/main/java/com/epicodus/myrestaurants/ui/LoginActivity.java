@@ -68,9 +68,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     public void checkLoginStatus(){
         AuthData authData = mFirebaseRef.getAuth();
-        if(authData != null){
-            Log.v(TAG, authData.getUid());
-            Log.v(TAG, mSharedPreferences.getString(Constants.KEY_UID, null));
+        if(authData != null && authData.getUid().equals(mSharedPreferences.getString(Constants.KEY_UID, null))){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
