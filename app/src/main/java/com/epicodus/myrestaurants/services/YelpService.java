@@ -155,7 +155,6 @@ public class YelpService {
                     String website = restaurantJSON.getString("url");
                     double rating = restaurantJSON.getDouble("rating");
                     String imageUrl = restaurantJSON.optString("image_url", "https://s-media-cache-ak0.pinimg.com/736x/68/d4/c1/68d4c1092837a068a2fe65b8a29b867e.jpg");
-                    Log.d("IMGURL", imageUrl);
                     double latitude = restaurantJSON.getJSONObject("location")
                             .getJSONObject("coordinate").getDouble("latitude");
                     double longitude = restaurantJSON.getJSONObject("location")

@@ -14,6 +14,7 @@ import com.epicodus.myrestaurants.R;
 import com.epicodus.myrestaurants.models.Restaurant;
 import com.epicodus.myrestaurants.util.FirebaseRecyclerAdapter;
 import com.epicodus.myrestaurants.util.ItemTouchHelperAdapter;
+import com.epicodus.myrestaurants.util.OnRestaurantSelectedListener;
 import com.epicodus.myrestaurants.util.OnStartDragListener;
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
@@ -27,10 +28,12 @@ public class FirebaseRestaurantListAdapter extends FirebaseRecyclerAdapter<Resta
 
     private final OnStartDragListener mDragStartListener;
     private Context mContext;
+    private OnRestaurantSelectedListener mRestaurantSelectedListener;
 
-    public FirebaseRestaurantListAdapter(Query query, Class<Restaurant> itemClass, OnStartDragListener onStartDragListener) {
+    public FirebaseRestaurantListAdapter(Query query, Class<Restaurant> itemClass, OnStartDragListener onStartDragListener, OnRestaurantSelectedListener restaurantSelectedListener) {
         super(query, itemClass);
         mDragStartListener = onStartDragListener;
+        mRestaurantSelectedListener = restaurantSelectedListener;
     }
 
     @Override
@@ -38,7 +41,7 @@ public class FirebaseRestaurantListAdapter extends FirebaseRecyclerAdapter<Resta
         mContext = parent.getContext();
         View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.restaurant_list_item_drag, parent, false);
-        return new RestaurantViewHolder(view, getItems());
+        return new RestaurantViewHolder(view, getItems(), mRestaurantSelectedListener);
     }
 
     @Override
