@@ -27,7 +27,7 @@ public class SavedRestaurantListActivity extends AppCompatActivity implements On
                 mPosition = savedInstanceState.getInt(Constants.EXTRA_KEY_POSITION);
                 mRestaurants = Parcels.unwrap(savedInstanceState.getParcelable(Constants.EXTRA_KEY_RESTAURANTS));
                 Intent intent = new Intent(this, RestaurantDetailActivity.class);
-                intent.putExtra(Constants.EXTRA_KEY_POSITION, mPosition.toString());
+                intent.putExtra(Constants.EXTRA_KEY_POSITION, mPosition);
                 intent.putExtra(Constants.EXTRA_KEY_RESTAURANTS, Parcels.wrap(mRestaurants));
                 startActivity(intent);
             }

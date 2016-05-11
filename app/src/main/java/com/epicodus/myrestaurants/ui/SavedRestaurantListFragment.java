@@ -44,6 +44,7 @@ public class SavedRestaurantListFragment extends BaseFragment implements OnStart
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         mFirebaseRestaurantRef = new Firebase(Constants.FIREBASE_URL_RESTAURANTS);
     }
 

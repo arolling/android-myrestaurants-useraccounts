@@ -102,38 +102,4 @@ public class RestaurantListFragment extends BaseFragment {
         });
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_search, menu); //todo inflate logout menu
-        MenuItem menuItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
-            @Override
-            public boolean onQueryTextSubmit(String query){
-                addToSharedPreferences(query);
-                getRestaurants(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText){
-                return false;
-            }
-        });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_logout:
-                logout();
-                return true;
-            case R.id.action_search:
-                return true;
-            default:
-                break;
-        }
-        return false;
-    }
 }
