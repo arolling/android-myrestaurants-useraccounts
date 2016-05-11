@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,6 +47,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (signupEmail != null) {
             mEmailEditText.setText(signupEmail);
         }
+        checkLoginStatus();
     }
 
     @Override
@@ -61,6 +63,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             default:
                 break;
+        }
+    }
+
+    public void checkLoginStatus(){
+        AuthData authData = mFirebaseRef.getAuth();
+        if(authData != null){
+            Log.v(TAG, authData.getUid());
+            Log.v(TAG, mSharedPreferences.getString(Constants.KEY_UID, null));
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         }
     }
 
