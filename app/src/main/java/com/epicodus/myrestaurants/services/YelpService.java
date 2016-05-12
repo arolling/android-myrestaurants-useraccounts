@@ -116,7 +116,9 @@ import se.akerfeldt.okhttp.signpost.OkHttpOAuthConsumer;
 import se.akerfeldt.okhttp.signpost.SigningInterceptor;
 
 public class YelpService {
-    public void findRestaurants(String location, Callback callback) {
+
+
+    public void findRestaurants(String location, int totalItemsCount, Callback callback) {
         String CONSUMER_KEY = Constants.YELP_CONSUMER_KEY;
         String CONSUMER_SECRET = Constants.YELP_CONSUMER_SECRET;
         String TOKEN = Constants.YELP_TOKEN;
@@ -130,12 +132,10 @@ public class YelpService {
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(Constants.YELP_BASE_URL).newBuilder();
         urlBuilder.addQueryParameter(Constants.YELP_LOCATION_QUERY_PARAMETER, location);
-        //urlBuilder.addQueryParameter(Constants.YELP_LIMIT_QUERY_PARAMETER, "30");
-        urlBuilder.addQueryParameter(Constants.YELP_SORT_QUERY_PARAMETER, "1");
+        urlBuilder.addQueryParameter(Constants.YELP_OFFSET_QUERY_PARAMETER, "" + totalItemsCount);
         String url = urlBuilder.build().toString();
 
-        Log.v("yelp call: ", url);
-
+        Log.v("url: ", url);
         Request request= new Request.Builder()
                 .url(url)
                 .build();
@@ -149,7 +149,7 @@ public class YelpService {
 
         try {
             String jsonData = response.body().string();
-            Log.v("jsondata: ", jsonData);
+            Log.v("jsonData: ", jsonData);
             if (response.isSuccessful()) {
                 JSONObject yelpJSON = new JSONObject(jsonData);
                 JSONArray businessesJSON = yelpJSON.getJSONArray("businesses");

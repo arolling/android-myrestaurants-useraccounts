@@ -20,6 +20,7 @@ import com.epicodus.myrestaurants.R;
 import com.epicodus.myrestaurants.adapters.RestaurantListAdapter;
 import com.epicodus.myrestaurants.models.Restaurant;
 import com.epicodus.myrestaurants.services.YelpService;
+import com.epicodus.myrestaurants.util.EndlessRecyclerViewScrollListener;
 import com.epicodus.myrestaurants.util.OnRestaurantSelectedListener;
 
 import java.io.IOException;
@@ -39,6 +40,7 @@ public class RestaurantListFragment extends BaseFragment {
     private RestaurantListAdapter mAdapter;
     public ArrayList<Restaurant> mRestaurants = new ArrayList<>();
     OnRestaurantSelectedListener mOnRestaurantSelectedListener;
+    private String mLocation;
 
 
     public RestaurantListFragment() {
@@ -67,9 +69,9 @@ public class RestaurantListFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_restaurant_list, container, false);
         ButterKnife.bind(this, view);
-        String location = mSharedPreferences.getString(Constants.PREFERENCES_LOCATION_KEY, null);
-        if (location != null) {
-            getRestaurants(location);
+        mLocation = mSharedPreferences.getString(Constants.PREFERENCES_LOCATION_KEY, null);
+        if (mLocation != null) {
+            getRestaurants(mLocation);
         }
         return view;
     }
@@ -77,7 +79,7 @@ public class RestaurantListFragment extends BaseFragment {
     public void getRestaurants(String location) {
         final YelpService yelpService = new YelpService();
 
-        yelpService.findRestaurants(location, new Callback() {
+        yelpService.findRestaurants(location, 0, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
@@ -93,13 +95,44 @@ public class RestaurantListFragment extends BaseFragment {
                         mAdapter = new RestaurantListAdapter(mRestaurants, mOnRestaurantSelectedListener);
 
                         mRecyclerView.setAdapter(mAdapter);
-                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
                         mRecyclerView.setLayoutManager(layoutManager);
-                        mRecyclerView.setHasFixedSize(true);
+                        mRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+                            @Override
+                            public void onLoadMore(int page, int totalItemsCount) {
+                                loadMoreFromYelp(totalItemsCount);
+                            }
+                        });
                     }
                 });
             }
         });
+    }
+
+    public void loadMoreFromYelp(int offset){
+        final YelpService yelpService = new YelpService();
+        yelpService.findRestaurants(mLocation, offset, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                mRestaurants.addAll(yelpService.processResults(response));
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int currentSize = mAdapter.getItemCount();
+                        mAdapter.notifyItemRangeInserted(currentSize, mRestaurants.size() - 1);
+                    }
+                });
+
+            }
+        });
+
+
     }
 
 }

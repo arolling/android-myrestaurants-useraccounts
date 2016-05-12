@@ -20,7 +20,7 @@ public class Constants {
 
     public static final String YELP_BASE_URL = "https://api.yelp.com/v2/search?term=food";
     public static final String YELP_LOCATION_QUERY_PARAMETER = "location";
-    public static final String YELP_LIMIT_QUERY_PARAMETER = "limit";
+    public static final String YELP_OFFSET_QUERY_PARAMETER = "offset";
     public static final String YELP_SORT_QUERY_PARAMETER = "sort";
 
     public static final String FIREBASE_LOCATION_USERS = "users";
