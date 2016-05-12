@@ -130,7 +130,11 @@ public class YelpService {
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(Constants.YELP_BASE_URL).newBuilder();
         urlBuilder.addQueryParameter(Constants.YELP_LOCATION_QUERY_PARAMETER, location);
+        //urlBuilder.addQueryParameter(Constants.YELP_LIMIT_QUERY_PARAMETER, "30");
+        urlBuilder.addQueryParameter(Constants.YELP_SORT_QUERY_PARAMETER, "1");
         String url = urlBuilder.build().toString();
+
+        Log.v("yelp call: ", url);
 
         Request request= new Request.Builder()
                 .url(url)
@@ -145,6 +149,7 @@ public class YelpService {
 
         try {
             String jsonData = response.body().string();
+            Log.v("jsondata: ", jsonData);
             if (response.isSuccessful()) {
                 JSONObject yelpJSON = new JSONObject(jsonData);
                 JSONArray businessesJSON = yelpJSON.getJSONArray("businesses");
