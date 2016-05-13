@@ -6,8 +6,7 @@ package com.epicodus.myrestaurants;
 public class Constants {
 
     public static final String FIREBASE_URL = BuildConfig.FIREBASE_ROOT_URL;
-//    public static final String FIREBASE_LOCATION_SEARCHED_LOCATION = "searchedLocation";
-//    public static final String FIREBASE_URL_SEARCHED_LOCATION = FIREBASE_URL + "/" + FIREBASE_LOCATION_SEARCHED_LOCATION;
+
     public static final String FIREBASE_LOCATION_RESTAURANTS = "restaurants";
     public static final String FIREBASE_URL_RESTAURANTS = FIREBASE_URL + "/" + FIREBASE_LOCATION_RESTAURANTS;
 
@@ -21,7 +20,6 @@ public class Constants {
     public static final String YELP_BASE_URL = "https://api.yelp.com/v2/search?term=food";
     public static final String YELP_LOCATION_QUERY_PARAMETER = "location";
     public static final String YELP_OFFSET_QUERY_PARAMETER = "offset";
-    public static final String YELP_SORT_QUERY_PARAMETER = "sort";
 
     public static final String FIREBASE_LOCATION_USERS = "users";
     public static final String FIREBASE_PROPERTY_EMAIL = "email";
@@ -32,4 +30,8 @@ public class Constants {
 
     public static final String EXTRA_KEY_POSITION = "position";
     public static final String EXTRA_KEY_RESTAURANTS = "restaurants";
+
+    public static final String KEY_SOURCE = "source";
+    public static final String SOURCE_SAVED = "saved";
+    public static final String SOURCE_FIND = "find";
 }
