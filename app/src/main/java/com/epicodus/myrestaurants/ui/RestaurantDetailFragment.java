@@ -4,6 +4,7 @@ package com.epicodus.myrestaurants.ui;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -28,6 +29,7 @@ import com.squareup.picasso.Picasso;
 import org.parceler.Parcels;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -83,7 +85,22 @@ public class RestaurantDetailFragment extends BaseFragment implements View.OnCli
         } else {
             mSaveRestaurantButton.setOnClickListener(this);
         }
-        Picasso.with(view.getContext()).load(mRestaurant.getImageUrl()).resize(MAX_WIDTH, MAX_HEIGHT).centerCrop().into(mImageLabel);
+
+        if (!mRestaurant.getImageUrl().contains("http")) {
+            try {
+                Bitmap image = decodeFromFirebaseBase64(mRestaurant.getImageUrl());
+                mImageLabel.setImageBitmap(image);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // This block of code should already exist, we're just moving it to the 'else' statement:
+            Picasso.with(view.getContext())
+                    .load(mRestaurant.getImageUrl())
+                    .resize(MAX_WIDTH, MAX_HEIGHT)
+                    .centerCrop()
+                    .into(mImageLabel);
+        }
         mNameLabel.setText(mRestaurant.getName());
         mCategoriesLabel.setText(android.text.TextUtils.join(", ", mRestaurant.getCategories()));
         mRatingLabel.setText(Double.toString(mRestaurant.getRating()) + "/5");
@@ -93,6 +110,11 @@ public class RestaurantDetailFragment extends BaseFragment implements View.OnCli
         mPhoneLabel.setOnClickListener(this);
         mAddressLabel.setOnClickListener(this);
         return view;
+    }
+
+    public static Bitmap decodeFromFirebaseBase64(String image) throws IOException {
+        byte[] decodedByte = com.firebase.client.utilities.Base64.decode(image);
+        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 
     @Override

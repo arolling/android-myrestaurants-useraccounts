@@ -3,6 +3,8 @@ package com.epicodus.myrestaurants.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +24,7 @@ import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -88,10 +91,24 @@ public class RestaurantViewHolder extends RecyclerView.ViewHolder implements Ite
 
 
     public void bindRestaurant(Restaurant restaurant) {
-        Picasso.with(mContext).load(restaurant.getImageUrl()).resize(MAX_WIDTH, MAX_HEIGHT).centerCrop().into(mRestaurantImageView);
+        if(!restaurant.getImageUrl().contains("http")){
+            try{
+                Bitmap image = decodeFromFirebaseBase64(restaurant.getImageUrl());
+                mRestaurantImageView.setImageBitmap(image);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        } else{
+            Picasso.with(mContext).load(restaurant.getImageUrl()).resize(MAX_WIDTH, MAX_HEIGHT).centerCrop().into(mRestaurantImageView);
+        }
         mNameTextView.setText(restaurant.getName());
         mCategoryTextView.setText(restaurant.getCategories().get(0));
         mRatingTextView.setText("Rating: " + restaurant.getRating() + "/5");
+    }
+
+    public static Bitmap decodeFromFirebaseBase64(String image) throws IOException {
+        byte[] decodedByte = com.firebase.client.utilities.Base64.decode(image);
+        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 
     @Override
