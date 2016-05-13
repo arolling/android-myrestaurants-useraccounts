@@ -36,7 +36,7 @@ public class Restaurant {
         this.phone = phone;
         this.website = website;
         this.rating = rating;
-        this.imageUrl = getLargeImageURL(imageUrl);
+        this.imageUrl = makeLargeImageURL(imageUrl);
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -85,7 +85,7 @@ public class Restaurant {
 
     public void setPushId(String pushId) { this.pushId = pushId; }
 
-    public String getLargeImageURL(String imageUrl) {
+    public String makeLargeImageURL(String imageUrl) {
         if (imageUrl.equals("https://s-media-cache-ak0.pinimg.com/736x/68/d4/c1/68d4c1092837a068a2fe65b8a29b867e.jpg")) {
             return imageUrl;
         }

@@ -128,11 +128,8 @@ public class RestaurantListFragment extends BaseFragment {
                         mAdapter.notifyItemRangeInserted(currentSize, mRestaurants.size() - 1);
                     }
                 });
-
             }
         });
-
-
     }
 
 }

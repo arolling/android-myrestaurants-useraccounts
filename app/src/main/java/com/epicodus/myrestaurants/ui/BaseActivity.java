@@ -69,8 +69,7 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void logout() {
         mFirebaseRef.unauth();
-        mSharedPreferencesEditor.remove(Constants.PREFERENCES_LOCATION_KEY).commit();
-        //todo: remove current UID from shared preferences?
+        mSharedPreferencesEditor.remove(Constants.PREFERENCES_LOCATION_KEY).remove(Constants.KEY_UID).commit();
         takeUserToLoginScreenOnUnAuth();
     }
 

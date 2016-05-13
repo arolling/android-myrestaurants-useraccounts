@@ -27,8 +27,7 @@ public class SavedRestaurantListActivity extends AppCompatActivity implements On
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                 mPosition = savedInstanceState.getInt(Constants.EXTRA_KEY_POSITION);
                 mRestaurants = Parcels.unwrap(savedInstanceState.getParcelable(Constants.EXTRA_KEY_RESTAURANTS));
-                if(mRestaurants != null){
-
+                if(mPosition != null && mRestaurants != null){
                     Intent intent = new Intent(this, RestaurantDetailActivity.class);
                     intent.putExtra(Constants.EXTRA_KEY_POSITION, mPosition);
                     intent.putExtra(Constants.EXTRA_KEY_RESTAURANTS, Parcels.wrap(mRestaurants));
@@ -37,7 +36,6 @@ public class SavedRestaurantListActivity extends AppCompatActivity implements On
             }
         }
         setContentView(R.layout.activity_saved_restaurant_list);
-
     }
 
     @Override

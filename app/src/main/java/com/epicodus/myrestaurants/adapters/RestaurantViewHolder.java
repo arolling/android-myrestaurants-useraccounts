@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -76,7 +77,6 @@ public class RestaurantViewHolder extends RecyclerView.ViewHolder implements Ite
             } else {
                 intent.putExtra(Constants.KEY_SOURCE, Constants.SOURCE_FIND);
             }
-
             mContext.startActivity(intent);
         }
     }

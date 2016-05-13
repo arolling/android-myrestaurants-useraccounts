@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -94,7 +95,6 @@ public class RestaurantDetailFragment extends BaseFragment implements View.OnCli
                 e.printStackTrace();
             }
         } else {
-            // This block of code should already exist, we're just moving it to the 'else' statement:
             Picasso.with(view.getContext())
                     .load(mRestaurant.getImageUrl())
                     .resize(MAX_WIDTH, MAX_HEIGHT)
@@ -170,31 +170,36 @@ public class RestaurantDetailFragment extends BaseFragment implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        if (v == mWebsiteLabel) {
-            Intent webIntent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(mRestaurant.getWebsite()));
-            startActivity(webIntent);
-        }
-        if (v == mPhoneLabel) {
-            Intent phoneIntent = new Intent(Intent.ACTION_DIAL,
-                    Uri.parse("tel:" + mRestaurant.getPhone()));
-            startActivity(phoneIntent);
-        }
-        if (v == mAddressLabel) {
-            Intent mapIntent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("geo:" + mRestaurant.getLatitude()
-                            + "," + mRestaurant.getLongitude()
-                            + "?q=(" + mRestaurant.getName() + ")"));
-            startActivity(mapIntent);
-        }
-        if (v == mSaveRestaurantButton) {
-            String userUid = mSharedPreferences.getString(Constants.KEY_UID, null);
-            Firebase userRestaurantsFirebaseRef = new Firebase(Constants.FIREBASE_URL_RESTAURANTS).child(userUid);
-            Firebase pushRef = userRestaurantsFirebaseRef.push();
-            String restaurantPushId = pushRef.getKey();
-            mRestaurant.setPushId(restaurantPushId);
-            pushRef.setValue(mRestaurant);
-            Toast.makeText(getContext(), "Restaurant Saved!", Toast.LENGTH_SHORT).show();
+        switch (v.getId()){
+            case R.id.saveRestaurantButton:
+                String userUid = mSharedPreferences.getString(Constants.KEY_UID, null);
+                Firebase userRestaurantsFirebaseRef = new Firebase(Constants.FIREBASE_URL_RESTAURANTS).child(userUid);
+                Firebase pushRef = userRestaurantsFirebaseRef.push();
+                String restaurantPushId = pushRef.getKey();
+                mRestaurant.setPushId(restaurantPushId);
+                pushRef.setValue(mRestaurant);
+                Toast.makeText(getContext(), "Restaurant Saved!", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.addressTextView:
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("geo:" + mRestaurant.getLatitude()
+                                + "," + mRestaurant.getLongitude()
+                                + "?q=(" + mRestaurant.getName() + ")"));
+                startActivity(mapIntent);
+                break;
+            case R.id.phoneTextView:
+                Intent phoneIntent = new Intent(Intent.ACTION_DIAL,
+                        Uri.parse("tel:" + mRestaurant.getPhone()));
+                startActivity(phoneIntent);
+                break;
+            case R.id.websiteTextView:
+                Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(mRestaurant.getWebsite()));
+                startActivity(webIntent);
+                break;
+            default:
+                break;
+
         }
     }
 
